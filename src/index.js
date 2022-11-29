@@ -13,20 +13,40 @@ class App extends React.Component {
     super(props);
     this.state = {
       contador: 0,
+      updatedAt: null,
     };
   }
+
+  componentDidMount() {
+    console.log('Fui creado');
+    let intervalo = setInterval(()=>this.setState({contador: this.state.contador + 1}),1000)
+    this.setState({ 
+      intv: intervalo
+    })
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    // console.log(prevState, this.state);
+    // console.log('Fui actualizado');
+    // if (prevState.contador !== this.state.contador) {
+    //   this.setState({ updatedAt: new Date() });
+    // }
+  }
+
+  componentWillUnmount() {
+    // alert('Bye');
+    clearInterval(this.state.intv)
+  }
+
+  updateCounter = () => {
+    this.setState({ contador: this.state.contador + 1 });
+  };
   render() {
     console.log(this.props);
     return (
       <>
         <p>Contador: {this.state.contador}</p>
-        <button
-          onClick={() => {
-            this.setState({ contador: this.state.contador + 1 });
-          }}
-        >
-          Suma
-        </button>
+        <button onClick={this.updateCounter}>Suma</button>
       </>
     );
   }
